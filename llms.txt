@@ -1,0 +1,22 @@
+# nSPAWN
+
+> Supervisor for AI coding agents. It starts Claude Code, Codex and AGY sessions through their own native CLIs. It records each run in a local SQLite registry and returns the result later. Part of the NOTT family.
+
+- It is not an API proxy, a model host or a credential store for other tools.
+- CLI: `nspawn <noun> <verb>` (`nspawn --help`). Create the store with `nspawn database create`.
+- MCP server: `nspawn mcp serve` (stdio). 15 tools, all named `nspawn_*`. Start with `nspawn_provider_list`, `nspawn_run_start`, `nspawn_result_show` and `nspawn_run_close`.
+- Configuration: the provider roster `~/.nott/spawn.toml`. The template `templates/nott/spawn.toml` holds no credentials. Store directory: `~/.nott/state/database/`, or `NOTT_DATABASE_DIR` in tests.
+- Invariants: each run has its own driver process. A writable run holds an exclusive claim on its worktree. A signal goes only to a process whose id, start time and user match the record. A test never opens the live store or a paid account.
+- Install: `curl --proto '=https' --tlsv1.2 -fsSL https://no.tt/install.sh | sh`, or `uv sync` in a clone.
+
+## Docs
+
+- [README](README.md): overview, install and quick start
+- [Reference](docs/REFERENCE.md): every CLI command and MCP tool
+- [Architecture](docs/ARCHITECTURE.md): design and contract
+- [Runbook](docs/RUNBOOK.md): setup, operation, backup and restore
+- [Rulebook](RULEBOOK.md): implementation rules
+
+## Optional
+
+- [NOTT plugin](https://github.com/menot-you/plugin): the plugin that uses nMEMORY, nSPAWN and nBROWSER
