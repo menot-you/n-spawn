@@ -36,7 +36,7 @@ Never point a test at `~/.nott/state/database` or mutate a live vendor account h
 
 1. **Eight-layer direction (`L1`–`L8`):** keep layer dependencies strictly acyclic as defined in the [rulebook](RULEBOOK.md). Lower layers never import higher layers.
 2. **Native vendor adapters, never a proxy:** each route executes the vendor's native binary (`claude`, `codex`, `agy`) against an existing authenticated account home declared in `~/.nott/spawn.toml`.
-3. **Caged readers vs. one-writer custody:** `read_only: true` runs inside a strict read-only cage confined to `cwd` and explicit `read_paths`. `native_write: true` requires a standalone Git clone, acquires an exclusive one-writer lock, isolates `HOME` and `TMPDIR` under `.nott/disposable`, and disables network access in the writer cage.
+3. **Readers vs. one-writer custody:** `read_only: true` starts the native client with the tools of its agent file only, reading `cwd` and explicit `read_paths`, in a run slice of its own and with no bwrap settings. `native_write: true` requires a standalone Git clone, acquires an exclusive one-writer lock, keeps process custody, and starts without a writer cage. Node cages remain.
 4. **Checked `ProcessIdentity` before signals:** never send `SIGSTOP` or `SIGKILL` to a bare PID. Always check `(pid, starttime_ticks, uid)` first and drain the run's systemd slice before releasing its worktree claim.
 5. **Honest quota, effort, and terminal states:** report quota state as `observed`, `stale`, `expired`, `never_observed`, or `no_source` (never `0%` for unknown usage). Record `requested`, `sent`, and `executed` effort separately. Require vendor result frames before marking a run succeeded. Exit code `0` alone is insufficient.
 6. **System1 task-class ceiling:** when the roster defines `[classes]`, classify the first 4,000 prompt characters through [system1.py](nspawn/system1.py). Downgrade to the observed class only when it is cheaper on every axis.
@@ -60,7 +60,7 @@ Never point a test at `~/.nott/state/database` or mutate a live vendor account h
 | Service and trust boundaries | [Architecture](docs/ARCHITECTURE.md) |
 | Setup, operation, backup, and restoration | [Runbook](docs/RUNBOOK.md) |
 | Complete MCP tool and CLI command reference | [Reference](docs/REFERENCE.md) |
-| Developer toolkit and Context7/RTK setup | [Setup](docs/SETUP.md) and [setup-catalog.json](docs/setup-catalog.json) |
+| Developer toolkit and Context7/RTK setup | [Setup](docs/SETUP.md) |
 | Quality gates and security review | [Quality](docs/QUALITY.md) |
 | Source installation and prerequisites | [Installation](docs/INSTALLATION.md) |
 | Data boundaries and external processing choices | [Privacy](docs/PRIVACY.md) |
