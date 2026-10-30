@@ -942,7 +942,7 @@
     "tests/fixtures/projection.py": {
       "executable": false,
       "mode": 420,
-      "sha256": "62017f3289bbb5c8d53fb5fd746f85ced7996df976888c5b36bd9997425b6066"
+      "sha256": "32db76ea4d091d3623eacf31500b236a688302e394ba9c9b01d5f0bdcbbd4f68"
     },
     "tests/fixtures/run-list-caller.json": {
       "executable": false,
